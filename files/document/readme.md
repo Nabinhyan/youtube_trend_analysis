@@ -18,7 +18,7 @@
 # Methodology
 ## Data Flow Diagram
 Each data files (csv/json) are used for the ETL process after which the dimension and fact table as shown in figure below.
-![Data Flow Process](images\data_flow.png)
+![Data Flow Process](images/data_flow.png)
 [Detail Image Link](https://drive.google.com/file/d/1ih9o-XFHq1VjkB524T2Tppntpbi7If2t/view?usp=sharing)
 
 
@@ -35,7 +35,7 @@ EXECUTE FORMAT(
         FORMAT CSV,
         ENCODING ''LATIN1'');', abs_path_of_csv);
 ```
-![Table after importing raw csv file](images\raw_video_detail.png)
+![Table after importing raw csv file](images/raw_video_detail.PNG)
 
 <p style = "text-align : justify;">Here the abs_path_of_csv is the absolute path for csv file.The type of format conversion is used to produce the format specifier's output. The following types are supported in postgres:</p>
 <ol>
@@ -85,7 +85,7 @@ INSERT INTO raw_data.raw_archive_video_detail(video_id, trending_date, title, ch
 ```
 
 Then the alter raw_video_detail table again get altered with deletion of the country column so that the data from next csv file will get inserted to the same table after `TRUNCATE`.
-![Table after importing raw csv to archive file](images\raw_archive_video_detail.PNG)
+![Table after importing raw csv to archive file](images/raw_archive_video_detail.PNG)
 While archiving the raw_category table, simply select all the data from raw_category table and insert it into the raw_archive_category table in which, the category and category_id must not be previsously present in archive table. If it exists, the data will not get inserted to archive table.
 ```
 INSERT INTO raw_data.raw_archive_category(kind, etag, category_id, channel_id, category, assignable)
@@ -93,7 +93,7 @@ INSERT INTO raw_data.raw_archive_category(kind, etag, category_id, channel_id, c
                        FROM raw_category WHERE category_id NOT IN (SELECT cast(category_id as int) FROM raw_data.raw_archive_category)
                         AND category NOT IN (SELECT category FROM raw_data.raw_archive_category);
 ```
-![Table after importing raw json to archive file](images\raw_archive_caetgory.PNG)
+![Table after importing raw json to archive file](images/raw_archive_caetgory.PNG)
 </p>
 <p style = "text-align : justify;">
 Actually, for csv file, stored procedures named raw_data and raw_video_detail(abs_path_of_csv text, country_name text) are implemented for following steps:
@@ -172,7 +172,7 @@ CAST(video_error_or_removed AS BOOLEAN) AS video_error_or_removed,
 country
 FROM raw_data.raw_archive_video_detail WHERE video_id <> 'video_id' ;
 ```
-![Table after transformation of raw_archive_video_detail table](images\transformation_video.PNG)
+![Table after transformation of raw_archive_video_detail table](images/transformation_video.PNG)
 For the raw_archive_category table, transformation has been applied directly while making the dimension table. Here also I have applied the datatype transformation. 
 </p>
 
@@ -196,7 +196,7 @@ WHERE
       AND category ISNULL
    );
 ```
-![Validation op](images\category_id.PNG)
+![Validation op](images/category_id.PNG)
 <li>existence of video_id without publish date</li>
 
 ```
@@ -208,7 +208,7 @@ WHERE
     video_id IS NOT NULL
     AND publish_date ISNULL;
 ```
-![Validation op](images\video_id_and_publish_date.PNG)
+![Validation op](images/video_id_and_publish_date.PNG)
 <li>validate video_id</li>
 
 ```
@@ -220,7 +220,7 @@ WHERE
     video_id ISNULL
     OR title ISNULL;
 ```
-![Validation op](images\video_id.PNG)
+![Validation op](images/video_id.PNG)
 <li>negative likes, dislikes, comments, views</li>
 
 ```
@@ -234,7 +234,7 @@ WHERE
     OR CAST(dislikes AS INT) < 0
     OR CAST(comments AS INT) < 0;
 ```
-![Validation op](images\views_likes_dislike_comment.PNG)
+![Validation op](images/views_likes_dislike_comment.PNG)
 </ul>
 <li>Transformation Validation </li>
 <ul>
@@ -248,7 +248,7 @@ FROM
 WHERE
     publish_date > trending_date;
 ```
-![Validation op](images\trending_publish_date.PNG)
+![Validation op](images/trending_publish_date.PNG)
 <li>publish time > 23:59:59 </li>
 
 ```
@@ -259,7 +259,7 @@ FROM
 WHERE
     publish_time > '' 23 :59 :59 '' :: TIME;
 ```
-![Validation op](images\publish_time.PNG)
+![Validation op](images/publish_time.PNG)
 <li> existance of category_id in transfromed table which are not in archive table </li>
 
 ```
@@ -273,7 +273,7 @@ SELECT
 FROM
     raw_data.raw_archive_video_detail;
 ```
-![Validation op](images\category_in_transformed_and_raw_archive.PNG)
+![Validation op](images/category_in_transformed_and_raw_archive.PNG)
 <li>existance of comments though the comments_disabled is true</li>
 
 ```
@@ -285,7 +285,7 @@ WHERE
     comments_disabled = '' True ''
     AND comments > 0;
 ```
-![Validation op](images\comments_disabled_comments.PNG)
+![Validation op](images/comments_disabled_comments.PNG)
 </ul>
 <li>Dimension Validation</li>
 <ul>
@@ -299,7 +299,7 @@ FROM
 WHERE
     days_for_trending < 0;
 ```
-![Validation op](images\days_for_trending.PNG)
+![Validation op](images/days_for_trending.PNG)
 <li>checking for the existance of caetgory_id except in raw_archive_category table</li>
 
 ```
@@ -313,7 +313,7 @@ SELECT
 FROM
     raw_data.raw_archive_category;
 ```
-![Validation op](images\category_id_except_in_archive.PNG)
+![Validation op](images/category_id_except_in_archive.PNG)
 </ul>
 </ol>
 
@@ -450,15 +450,15 @@ While visualizing the data, the dimension tables and the central_fact table has 
 <b><li><h3>Category Dashboard</h3></li></b>
     <p style = "text-align : justify;">In category dashboard, different chart showing the average days_for_trending by category, count of video_id by category, top 2 highest viewed, highest liked, highest disliked, highest commented categories, trend of likes, dislikes and comments in a category, average views by publish_shift and category.</p>
 
-![Category Initial](images\category_I.png)
+![Category Initial](images/category_I.PNG)
 <p style = "text-align : center;">Fig.: Category dashboard with all category selction</p>
     <p style = "text-align : justify;">In image above we can observe the graphs for all the category in the database. This picture represent that the music category takes the highest average days for getting into the trending meanwhile the movies category takes the lowest average days to get into trending. <br/> Similarly, there is highest number of videos in Entertainment category. The music and Entertainment categories has the highest number of views, Entertainment category has highest likes and dislikes both and Music category has the highest numbe of comments. From the average of views by publish_shift and category graph, it signifies that the 'music' category has the highest number of views when it is published in 'morning shift' and 'science and technology' category has highest number of views when it is published in 'night shift' and so on. </p>
 
-![Category with Single Selection](images\category_II.png)
+![Category with Single Selection](images/category_II.PNG)
 <p style = "text-align : center;">Fig.: Category dashboard with single category selction</p>
     <p style = "text-align : justify;">The figure just above shows the average days_for_trending by category, count of video_id by category, top 2 highest viewed, highest liked, highest disliked, highest commented categories, trend of likes, dislikes and comments in a category, average views by publish_shift and category for a single category(Sports category). It signifies that sports category takes 44.42 days in average to get into the trending and has 13.5K videos in this category. If the videos in this category are published in night shift it is getting the highest number of views then publihsing on other shift. </p>
 
-![Category with Multiple Selection](images\category_III.png)
+![Category with Multiple Selection](images/category_III.PNG)
 <p style = "text-align : center;">Fig.: Category dashboard with multiple category selction</p>
     <p style = "text-align : justify;">Image just above shows the comparison between two categories (Sports and Comedy) in above mentioned field. It shows that the comedy category takes the highest average day for getting into trending than sports category and has highest number of videos in sports category than in comedy category. The video in sports category is better to publish in night shift for more number of views meanwhile, the best shift to publish the videos in comedy category would be evening shift. 
 <b><li><h3>Country Dashboard</h3></li></b>
@@ -466,29 +466,29 @@ While visualizing the data, the dimension tables and the central_fact table has 
     The dashboard below shows that Mexico owns the highest number of channel while India own the lowest number of channel. Russia has published highest number of videos and Great Britain has published the lowest number of videos. The count of video_id by publish_date and country_name shows the number of videos published per day by a country which may not be appropriate to visualize the trend for all number of country. But it may be most useful for visualizing the number of videos published by a country on each day for selecting single country or multiple country. Using this graph we can analyse the differences of videos being published according to country. On analysing this graph for all the country we can observe that on 7, April 2018 to 11, April 2018 every country has published very less number of videos. Now we can go through this graph that why less number of videos are published on these days.
     </p>
 
-![Country Initial](images\country_I.png)
+![Country Initial](images/country_I.PNG)
 <p style = "text-align : center;">Fig.: Country dashboard with all country and all category selction</p>
 
-![Country Single Selection of Country](images\visualization\country\country_II.png)
+![Country Single Selection of Country](images/country_II.PNG)
 <p style = "text-align : center;">Fig.: Category dashboard with single country selction and all category selection</p>
 
-![Country Mulitple Selection of Country](images\visualization\country\country_III.png)
+![Country Mulitple Selection of Country](images/country_III.PNG)
 <p style = "text-align : center;">Fig.: Category dashboard with multiple country selction and all category selection</p>
 
-![Country Initial Multiple Selection of Country and Multiple Selection of Category](images\country_IV.png)
+![Country Initial Multiple Selection of Country and Multiple Selection of Category](images/country_IV.PNG)
 <p style = "text-align : center;">Fig.: Category dashboard with multiple country selction and single category selection</p>
 
 <b><li><h3>Channel Dashboard </h3></li></b>
     <p style = "text-align : justify;">While visualizing the data based on channel, the relation between number of likes and views to the content in any category signifies the possibility of trending of the channel and the relation between views and the number of video in the channel also shows the trending possibility of the channel. <br/>
     The dashboard below shows above mentioned relation and the number of videos in each channel in the database. In which the 'ibighit' channel has almost linear likes(776812043) and views(8205572221) which is pretty good in nature. Also the 'ChildishGambinoVEVO' has only two video but has 11,016,766,510 views which is pretty good in nature because without good content the videos in this channel cannot have such a huge number of views in only 2 videos. The dashboard also shows that the SET India channel has the highest numbe of videos(251).</p>
     
-![Channel Initial](images\channel_I.png)
+![Channel Initial](images/channel_I.PNG)
 <p style = "text-align : center;">Fig.: Channel dashboard with all channel selection</p>
 
-![Channel with Single Selection](images\channel_II.png)
+![Channel with Single Selection](images/channel_II.PNG)
 <p style = "text-align : center;">Fig.: Channel dashboard with single channel selection</p>
 
-![Channel with Multiple Selection](images\channel_III.png)
+![Channel with Multiple Selection](images/channel_III.PNG)
 <p style = "text-align : center;">Fig.: Channel dashboard with multiple channel selection</p>
 </ol>
 
