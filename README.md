@@ -2,8 +2,9 @@
 
 The folder structure for this project has been maintained as mention below:
 <ul>
-    <li>data --> this folder contains all the csv and json data files</li>
-<li>schema --> This folder contains the subfolder that include script to creates the schema and table</li>
+    <li>data --> This folder contains all the csv and json data files</li>
+    <li>document --> This folder contains the document to the system named to readme.md and necessary image files to the document.</li>
+    <li>schema --> This folder contains the subfolder that include script to creates the schema and table</li>
     <ul>
     <li>csv_file_handel --> This folder contains the scripts to create the raw tables and archive table.</li>
     <li>dimension_handeling --> This folder contains the scripts to create the dimension tables.</li>
