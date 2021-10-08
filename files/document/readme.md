@@ -358,6 +358,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
     SELECT DISTINCT video_id, title
     FROM transformed.transformed_video_detail;
     ```
+![dimension](images/dim_video.PNG)
 <li>dim_category</li>
 <p style = "text-align : justify;">
     This dimension table stores the name of category and the category_id itself from the raw_archive_category along with the transformation step in same step. The category_id is the primary key to the table and  the foreign key for central_fact table. </p>
@@ -367,6 +368,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
     SELECT DISTINCT CAST(category_id AS INT) AS category_id, category
     FROM raw_data.raw_archive_category;
     ```
+![dimension](images/dim_category.PNG)
 <li>dim_channel</li>
 <p style = "text-align : justify;">
     This dimension table stores the title of the channel. The surrogate key 'id' is the primary key and the foreign key for central_fact table. </p>
@@ -376,6 +378,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
     SELECT DISTINCT channel_title
     FROM transformed.transformed_video_detail;
     ```
+![dimension](images/dim_channel.PNG)
 <li>dim_date</li>
 <p style = "text-align : justify;">
     This dimension table will store the trending_date, publish_date and the calculated value for days_for_trending. The surrogate key 'id' is primary key and a foreign key for central_fact table. </p>
@@ -387,6 +390,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
                     (trending_date::date - publish_date::date) as days
     FROM transformed.transformed_video_detail;
     ```
+![dimension](images/dim_date.PNG)
 <li>dim_time</li>
 <p style = "text-align : justify;">
     This dimension table will store the publish_time and the calculated value for publish_shift. Here, for calculating the publish_shift, I have assumed the arbitary value to differentiate the shift. I have taken the entire day to 4 shifts as:
@@ -411,6 +415,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
                 END AS publish_shift
     FROM transformed.transformed_video_detail;
     ```
+![dimension](images/dim_time.PNG)
 <li>dim_country</li>
 <p style = "text-align : justify;">
     This dimension table will store the distinct country name. The surrogate key 'id' is primary key and a foreign key for central_fact table. 
@@ -421,6 +426,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
     SELECT DISTINCT country
     FROM transformed.transformed_video_detail;
     ```
+![dimension](images/dim_country.PNG)
 </ol>
 
 ### central_fact
@@ -440,6 +446,7 @@ The data warehouse is designed implementing the `Star Schema` in which `central_
             LEFT JOIN dimension.dim_category ca ON tr.category_id = ca.category_id
             LEFT JOIN dimension.dim_country co ON tr.country = co.country_name;
     ``` 
+![fact](images/central_fact.PNG)
 </p> 
 
 # Data Visualization
