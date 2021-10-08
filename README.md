@@ -3,16 +3,6 @@
 The folder structure for this project has been maintained as mention below:
 <ul>
     <li>data --> this folder contains all the csv and json data files</li>
-    <li>document --> this folder contains the document file in markdown format and image folder which contains the images for the document.</li>
-    <ul>
-    <li>query_op --> This folder contains the images of output after inserting the data to the tables.</li>
-    <li>visualization --> This folder contains the sub-folder containing the visualization images based on dashboard</li>
-        <ul>
-            <li>category --> This folder contains the images for the category dashboard</li>
-            <li>channel --> This folder contains the images for the channel dashboard</li>
-            <li>country --> This folder contains the images for the country dashboard</li>
-        </ul>
-    </ul>
 <li>schema --> This folder contains the subfolder that include script to creates the schema and table</li>
     <ul>
     <li>csv_file_handel --> This folder contains the scripts to create the raw tables and archive table.</li>
