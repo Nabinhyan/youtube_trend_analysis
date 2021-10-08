@@ -3,3 +3,5 @@ files.egg-info
 __init__.py
 project
 setup.py
+.env
+.vscode
