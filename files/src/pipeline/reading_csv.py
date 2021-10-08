@@ -1,6 +1,7 @@
 import ntpath
 from src.utils import *
 
+
 def read_csv(single_path):
     head, tail = ntpath.split(single_path)
     # Extraction of country code from file_name #

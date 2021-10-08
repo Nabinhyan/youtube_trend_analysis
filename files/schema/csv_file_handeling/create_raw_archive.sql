@@ -3,11 +3,11 @@ CREATE SCHEMA IF NOT EXISTS raw_data;
 CREATE TABLE IF NOT EXISTS raw_data.raw_archive_video_detail(
         video_id VARCHAR,
         trending_date VARCHAR,
-        title  VARCHAR,
+        title VARCHAR,
         channel_title VARCHAR,
         category_id VARCHAR,
         publish_time VARCHAR,
-        tags  VARCHAR,
+        tags VARCHAR,
         views VARCHAR,
         likes VARCHAR,
         dislikes VARCHAR,
@@ -18,4 +18,4 @@ CREATE TABLE IF NOT EXISTS raw_data.raw_archive_video_detail(
         video_error_or_removed VARCHAR,
         description VARCHAR,
         country VARCHAR
-        );
+);

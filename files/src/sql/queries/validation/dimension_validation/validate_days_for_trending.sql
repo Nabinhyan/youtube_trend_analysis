@@ -1,1 +1,3 @@
-SELECT * FROM dimension.dim_date WHERE days_for_trending < 0;
+SELECT *
+FROM dimension.dim_date
+WHERE days_for_trending < 0;

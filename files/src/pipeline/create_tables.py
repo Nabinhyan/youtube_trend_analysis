@@ -1,11 +1,12 @@
 import os
 from src.utils import exec_sql_files
 
+
 def create_table():
-    base_path = ['files/schema/csv_file_handeling/', 
-                 'files/schema/json_file_handeling/', 
-                 'files/schema/transformation_handle/', 
-                 'files/schema/dimension_handeling/', 
+    base_path = ['files/schema/csv_file_handeling/',
+                 'files/schema/json_file_handeling/',
+                 'files/schema/transformation_handle/',
+                 'files/schema/dimension_handeling/',
                  'files/schema/facts/']
     for each_base_path in base_path:
         try:

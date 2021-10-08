@@ -1,8 +1,9 @@
 import os
 from src.utils import exec_sql_files
 
+
 def ins_to_dim_facts():
-    base_path = ['files/src/sql/queries/insert_dim/', 
+    base_path = ['files/src/sql/queries/insert_dim/',
                  'files/src/sql/queries/insert_facts/']
     for each_base_path in base_path:
         try:
@@ -20,4 +21,3 @@ def ins_to_dim_facts():
                             print(e)
         except NotADirectoryError as e:
             print("Directory path error...")
-            
